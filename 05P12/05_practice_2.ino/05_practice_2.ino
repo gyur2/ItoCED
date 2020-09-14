@@ -10,9 +10,9 @@ void setup() {
 
 void loop() {
   digitalWrite(PIN_LED, 1); // update LED status.
-  delay(300); // wait for 1,000 milliseconds
+  delay(300); // wait for 300 milliseconds
   digitalWrite(PIN_LED, 0); // update LED status.
-  delay(300); // wait for 1,000 milliseconds
+  delay(300); // wait for 300 milliseconds
 }
 
 int toggle_state(int toggle) {
