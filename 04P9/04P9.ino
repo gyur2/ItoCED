@@ -17,10 +17,13 @@ void loop() {
   toggle = toggle_state(toggle); //toggle LED value.
   digitalWrite(PIN_LED, toggle); // update LED status.
   delay(1000); // wait for 1,000 milliseconds
-  digitalWrite(PIN_LED, 0); // update LED status.
-  delay(1000); // wait for 1,000 milliseconds
 }
 
 int toggle_state(int toggle) {
+  if (toggle==0) {
+    toggle=1;
+  }
+  else
+    toggle=0;
   return toggle;
 }
