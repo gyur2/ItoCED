@@ -9,27 +9,12 @@ void setup() {
 }
 
 void loop() {
+  for (int Value = 0; Value <=5; Value += 1) {
   digitalWrite(PIN_LED, 1); // update LED status.
-  delay(200); // wait for 200 milliseconds
+  delay(100); // wait for 100 milliseconds
   digitalWrite(PIN_LED, 0); // update LED status.
-  delay(200); // wait for 200 milliseconds
-  digitalWrite(PIN_LED, 1); // update LED status.
-  delay(200); // wait for 200 milliseconds
-  digitalWrite(PIN_LED, 0); // update LED status.
-  delay(200); // wait for 200 milliseconds 
-  digitalWrite(PIN_LED, 1); // update LED status.
-  delay(200); // wait for 200 milliseconds
-  digitalWrite(PIN_LED, 0); // update LED status.
-  delay(200); // wait for 200 milliseconds 
-  digitalWrite(PIN_LED, 1); // update LED status.
-  delay(200); // wait for 200 milliseconds
-  digitalWrite(PIN_LED, 0); // update LED status.
-  delay(200); // wait for 200 milliseconds 
-  digitalWrite(PIN_LED, 1); // update LED status.
-  delay(200); // wait for 200 milliseconds
-  digitalWrite(PIN_LED, 0); // update LED status.
-  delay(200); // wait for 200 milliseconds 
-  
+  delay(100); // wait for 100 milliseconds
+  }
   while(1){
     digitalWrite(PIN_LED, 1); //update LED status.
   }
