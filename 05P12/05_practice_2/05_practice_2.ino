@@ -9,7 +9,7 @@ void setup() {
 }
 
 void loop() {
-  for (int Value = 0; Value <=5; Value += 1) {
+  for (int Value = 0; Value <5; Value += 1) {
   digitalWrite(PIN_LED, 1); // update LED status.
   delay(100); // wait for 100 milliseconds
   digitalWrite(PIN_LED, 0); // update LED status.
