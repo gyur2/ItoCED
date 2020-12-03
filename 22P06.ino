@@ -21,7 +21,7 @@
 
 #define _DIST_ALPHA 0.4
 #define DELAY_MICROS 1500
-#define _KP 2 //0.0   
+#define _KP 1.5   
 
 Servo myservo; 
 
@@ -66,21 +66,6 @@ void setup() {
 }
 
 void loop() {
-  /*
-  unsigned long time_curr = millis();
-   if(time_curr >= last_sampling_time_dist + _INTERVAL_DIST) {
-        last_sampling_time_dist += _INTERVAL_DIST;
-        event_dist = true;
-  }
-  if(time_curr >= last_sampling_time_servo + _INTERVAL_SERVO) {
-        last_sampling_time_servo += _INTERVAL_SERVO;
-        event_servo = true;
-  }
-  if(time_curr >= last_sampling_time_serial + _INTERVAL_SERIAL) {
-        last_sampling_time_serial += _INTERVAL_SERIAL;
-        event_serial = true;
-  }
-  */
   event_serial = true; event_dist = true; event_servo = true;
   
   if(event_dist) {
