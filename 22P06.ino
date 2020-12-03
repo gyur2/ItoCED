@@ -114,8 +114,8 @@ void loop() {
       Serial.print(dist_raw);
       Serial.print(",pterm:");
       Serial.print(map(pterm,-1000,1000,510,610));
-      //Serial.print(",dterm:");
-      //Serial.print(map(dterm,-1000,1000,510,610));
+      Serial.print(",dterm:");
+      Serial.print(map(dterm,-1000,1000,510,610));
       Serial.print(",duty_target:");
       Serial.print(map(duty_target,1000,2000,410,510));
       Serial.print(",duty_curr:");
