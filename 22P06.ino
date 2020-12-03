@@ -75,8 +75,8 @@ void loop() {
 
     // PID control logi
     error_curr = dist_target - dist_ema; 
-    pterm =  error_curr; 
-    control = _KP*pterm; 
+    pterm =  _KP*error_curr; 
+    control = pterm; 
 
   // duty_target = f(duty_neutral, control)
     duty_target = duty_neutral + control; 
