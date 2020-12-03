@@ -61,12 +61,12 @@ void setup() {
   
   Serial.begin(57600);
   
-  //event_dist = event_servo = event_serial = false;
+  event_dist = event_servo = event_serial = false;
   duty_chg_per_interval =(float)(_DUTY_MAX - _DUTY_MIN) * (_SERVO_SPEED / _SERVO_ANGLE) * (_INTERVAL_SERVO / 1000.0);
 }
 
 void loop() {
-  event_serial = true; event_dist = true; event_servo = true;
+  event_serial = event_dist = event_servo = true;
   
   if(event_dist) {
     event_dist = false;  
