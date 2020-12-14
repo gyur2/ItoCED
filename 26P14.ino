@@ -4,7 +4,7 @@
 #define PIN_LED 9
 #define PIN_SERVO 10 
 
-#define _DIST_TARGET 225
+#define _DIST_TARGET 255
 #define _DIST_MIN 87
 #define _DIST_MAX 400
 
@@ -13,18 +13,21 @@
 #define _DUTY_MAX 2000
 
 #define _SERVO_ANGLE 30
-#define _SERVO_SPEED 30
+#define _SERVO_SPEED 55 //50, 
 
 #define _INTERVAL_DIST 20
 #define _INTERVAL_SERVO 30   
 #define _INTERVAL_SERIAL 100 
 
-#define _DIST_ALPHA 0.4
+#define _DIST_ALPHA 0.35
 #define DELAY_MICROS 1500
 
-#define _KP 1.4
-#define _KD 20
+#define _ITERM_MIN 0.2
+#define _ITERM_MAX 20
 
+#define _KP 1.2 
+#define _KD 70.5 
+#define _KI 0.25
 
 Servo myservo; 
 
@@ -57,31 +60,33 @@ void setup() {
   samples_num= 3;
   duty_curr = _DUTY_NEU;
   duty_neutral = _DUTY_NEU;
-  
+  pterm = iterm = dterm = 0;
   myservo.writeMicroseconds(duty_neutral);
 // initialize serial port
   delay(50);
   
   Serial.begin(57600);
   
-  //event_dist = event_servo = event_serial = false;
+  event_dist = event_servo = event_serial = false;
   duty_chg_per_interval =(float)(_DUTY_MAX - _DUTY_MIN) * (_SERVO_SPEED / _SERVO_ANGLE) * (_INTERVAL_SERVO / 1000.0);
 }
 
 void loop() {
-
   event_serial = event_dist = event_servo = true;
-  
+  if(abs(iterm) > _ITERM_MAX) iterm = 0;
   if(event_dist) {
     event_dist = false;  
     // get a distance reading from the distance sensor
     dist_raw = ir_distance_filtered(); 
 
     // PID control logi
-    error_curr = dist_target - dist_ema; 
+    error_curr = dist_target - dist_ema;
     pterm =  _KP*error_curr; 
     dterm = _KD*(error_curr - error_prev);
-    control = pterm + dterm;
+    iterm += _KI*error_curr;
+    if(iterm > _ITERM_MAX) iterm = _ITERM_MAX;
+    if(iterm < -_ITERM_MAX) iterm = - _ITERM_MAX;
+    control = pterm + dterm + iterm;
     duty_target = duty_neutral + control; 
 
     if (duty_target > _DUTY_MAX) {
@@ -106,26 +111,29 @@ void loop() {
     }
 
     myservo.writeMicroseconds(duty_curr);
-
+    error_prev = error_curr;
     last_sampling_time_serial += _INTERVAL_SERIAL;
     last_sampling_time_servo += _INTERVAL_SERVO;
     last_sampling_time_dist += _INTERVAL_DIST;
   }
 
-  //float dist_cali = 100 + 300.0 / (b - a) * (raw_dist - a);
     if(event_serial) {
       event_serial = false;     
-      Serial.print("dist_ir:");
+      Serial.print("IR:");
       Serial.print(dist_raw);
-      Serial.print(",pterm:");
+      Serial.print(", T:");
+      Serial.print(dist_target);
+      Serial.print(", P:");
       Serial.print(map(pterm,-1000,1000,510,610));
-      Serial.print(",dterm:");
+      Serial.print(", D:");
       Serial.print(map(dterm,-1000,1000,510,610));
-      Serial.print(",duty_target:");
+      Serial.print(", I:");
+      Serial.print(map(iterm,-1000,1000,510,610));
+      Serial.print(", DTT:");
       Serial.print(map(duty_target,1000,2000,410,510));
-      Serial.print(",duty_curr:");
+      Serial.print(", DTC:");
       Serial.print(map(duty_curr,1000,2000,410,510));
-      Serial.println(",Min:100,Low:200,dist_target:255,High:310,Max:410");
+      Serial.println(", -G:245, +G:265, m:0, M:800");
   }
 }
 
